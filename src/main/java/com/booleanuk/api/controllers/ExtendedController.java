@@ -9,33 +9,36 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("extend")
 public class ExtendedController {
+
     private ProductRepository ourProducts;
 
     public ExtendedController(){
         this.ourProducts=new ProductRepository();
     }
 
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product){
-        for(Product p: ourProducts.getProducts()){
-            if (p.getName()== product.getName()){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product already exists.");
 
-            }
+
+        if(ourProducts.getProduct(product.getId())!=null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product already exists.");
         }
         ourProducts.add(product);
         return product;
     }
 
 
-    @GetMapping("/{category}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ArrayList<Product> getCategory(String category){
+    public ArrayList<Product> getCategory(@RequestParam String category){
         ArrayList<Product> catProd=new ArrayList<>();
         for(Product p: ourProducts.getProducts()){
             if (p.getCategory()==category){
@@ -43,7 +46,7 @@ public class ExtendedController {
 
             }
         }
-        if (catProd.size()>0){
+        if (!catProd.isEmpty()){
             return catProd;
         }
         else {
@@ -102,6 +105,8 @@ public class ExtendedController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
     }
+
+
 
 
 

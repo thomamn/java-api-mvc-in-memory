@@ -5,6 +5,7 @@ import com.booleanuk.api.product.Product;
 import com.booleanuk.api.repositories.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("product")
 public class ProductController {
+
+
     private ProductRepository ourProducts;
 
     public ProductController(){
@@ -22,6 +25,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product){
         ourProducts.add(product);
+
         return product;
     }
 

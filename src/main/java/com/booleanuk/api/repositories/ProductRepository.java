@@ -13,8 +13,8 @@ public class ProductRepository {
 
     public ProductRepository(){
         this.products=new ArrayList<>();
-        this.products.add(new Product("Coffler", "Cup,", 9001));
-        this.products.add(new Product("Well of Ascension", "Book,", 169));
+        this.products.add(new Product("Coffler", "Cup", 9001));
+        this.products.add(new Product("Well of Ascension", "Book", 169));
     }
 
     public ArrayList<Product> getProducts() {
@@ -22,6 +22,7 @@ public class ProductRepository {
     }
 
     public Product getProduct(int id){
+
         for (Product p:this.products){
             if(p.getId()==id){
                 return p;
@@ -30,7 +31,21 @@ public class ProductRepository {
         return null;
     }
 
+    public Product findNamedProduct(String name){
+        for (Product p:this.products){
+            if(p.getName()==name){
+                return p;
+            }
+        }
+        return null;
+    }
+
     public Product add(Product product){
+        for (Product p: products){
+            if (p.getName()==product.getName()){
+                return null;
+            }
+        }
         products.add(product);
         return product;
     }
